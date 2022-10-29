@@ -1,0 +1,16 @@
+.header__burger {
+    display: none;
+    width: 24px;
+    height: 18px;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 21' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cline y1='1.5' x2='24' y2='1.5' stroke='white' stroke-width='3'/%3E%3Cline y1='10.5' x2='24' y2='10.5' stroke='white' stroke-width='3'/%3E%3Cline y1='19.5' x2='24' y2='19.5' stroke='white' stroke-width='3'/%3E%3C/svg%3E%0A");
+    border: none;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .header__burger {
+        display: block;
+    }
+}
