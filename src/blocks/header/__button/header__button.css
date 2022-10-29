@@ -1,0 +1,14 @@
+.header__button {
+    color: #a9a9a9;
+    font-size: 18px;
+    line-height: 22px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
+
+@media (max-width: 600px) {
+    .header__button {
+        margin-top: 18px;
+    }
+}
