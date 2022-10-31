@@ -1,5 +1,15 @@
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
+const getResponseData = (response) => {
+    try {
+        if (response.status === 200 || response.status === 201) {
+            return response.json();
+        }
+    } catch (e) {
+        return (e)
+    }
+}
+
 export const register = (email, password) => {
     return fetch(`${BASE_URL}/signup`, {
         method: 'POST',
@@ -9,17 +19,8 @@ export const register = (email, password) => {
         },
         body: JSON.stringify({email, password})
     })
-        .then((response) => {
-            try {
-                if (response.status === 200 || response.status === 201) {
-                    return response.json();
-                }
-            } catch (e) {
-                return (e)
-            }
-        })
         .then((res) => {
-            return res;
+            return getResponseData(res);
         })
         .catch((err) => console.log(err));
 };
@@ -33,12 +34,8 @@ export const authorize = (login, password) => {
         },
         body: JSON.stringify({email: login, password})
     })
-        .then((response => response.json()))
-        .then((data) => {
-            if (data.token) {
-                localStorage.setItem('jwt', data.token);
-                return data;
-            }
+        .then((res) => {
+            return getResponseData(res);
         })
         .catch(err => console.log(err))
 };
@@ -49,7 +46,8 @@ export const getContent = (token) => {
             'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`,
         }
     })
-        .then(res => res.json())
-        .then(data => data)
+        .then((res) => {
+            return getResponseData(res);
+        })
         .catch(err => console.log(err));
 }

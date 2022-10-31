@@ -32,7 +32,6 @@ function AddPlacePopup({onUpdatePlace, isOpen, onClose, submitButton}) {
                        placeholder="Ссылка на картинку" aria-label="Введите ссылку на картинку"
                        required/>
                 <span className="popup__input-error popup__link-error"></span>
-                <button type="submit" className="popup__button">{submitButton}</button>
             </>
         } />
     );
