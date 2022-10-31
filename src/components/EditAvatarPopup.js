@@ -18,7 +18,6 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, submitButton}) {
                 <input type="url" className="popup__input" name="avatar" id="avatar"
                        placeholder="Ссылка на картинку" ref={inputRef} aria-label="Введите ссылку на картинку" required />
                 <span className="popup__input-error popup__avatar-error"></span>
-                <button type="submit" className="popup__button">{submitButton}</button>
             </>
         } />
     );

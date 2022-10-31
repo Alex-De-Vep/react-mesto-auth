@@ -1,86 +1,72 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Auth from '../../utils/Auth.js';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter, useHistory } from 'react-router-dom';
 import InfoToolTip from "../InfoTooltip";
 
-class Register extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            login: '',
-            password: '',
-            isInfoToolTipOpen: false,
-            isRegister: false
+function Register(props) {
+    const [login, setLogin] = useState("");
+    const [password, setPassword] = useState("");
+    const [isInfoToolTipOpen, setIsInfoToolTipOpen] = useState(false);
+    const [isRegister, setIsRegister] = useState(false);
+    const history = useHistory();
+
+    const closeInfoToolTip = () => {
+        setIsInfoToolTipOpen(false);
+    }
+
+    const handleChange = (e) => {
+        if (e.target.name === "login") {
+            setLogin(e.target.value);
+        } else {
+            setPassword(e.target.value);
         }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.closeInfoToolTip = this.closeInfoToolTip.bind(this);
     }
 
-    closeInfoToolTip() {
-        this.setState({
-            isInfoToolTipOpen: false
-        });
-    };
-
-    handleChange(e) {
-        const {name, value} = e.target;
-        this.setState({
-            [name]: value
-        });
-    }
-
-    handleSubmit(e){
+    const handleSubmit = (e) => {
         e.preventDefault()
-        if (this.state.password){
-            Auth.register(this.state.login, this.state.password)
+
+        if (password !== ""){
+            Auth.register(login, password)
                 .then((res) => {
                     if (res.data._id) {
-                        this.setState({
-                            isRegister: true
-                        });
+                        setIsRegister(true);
+                        history.push('/sign-in');
                     } else {
-                        this.setState({
-                            isRegister: false
-                        });
+                        setIsRegister(false);
                     }
                 })
                 .finally(() => {
-                    this.setState({
-                        isInfoToolTipOpen: true
-                    });
+                    setIsInfoToolTipOpen(true);
                 })
         }
     }
 
-    render(){
-        return(
-            <>
-                <div className="auth">
-                    <div className="auth__container">
-                        <form onSubmit={this.handleSubmit} className="form">
-                            <h1 className="form__title">
-                                Регистрация
-                            </h1>
-                            <input type="email" className="form__input" value={this.state.login} onChange={this.handleChange} name="login" id="login" minLength="2" maxLength="40" required
-                                   aria-label="Email:" placeholder="Email:" />
-                            <span className="form__input-error form__name-error"></span>
-                            <input type="password" className="form__input" value={this.state.password} onChange={this.handleChange} name="password" id="password" minLength="2" maxLength="200" required
-                                   aria-label="Пароль" placeholder="Пароль"/>
-                            <span className="form__input-error form__about-error"></span>
-                            <button type="submit" className="form__button">Зарегистрироваться</button>
-                        </form>
-                        <div className="auth__sign-in">
-                            <p className="auth__text">Уже зарегистрированы?&nbsp;
-                                <Link to="/sign-in" className="auth__link">Войти</Link>
-                            </p>
-                        </div>
+    return(
+        <>
+            <div className="auth">
+                <div className="auth__container">
+                    <form onSubmit={handleSubmit} className="form">
+                        <h1 className="form__title">
+                            Регистрация
+                        </h1>
+                        <input type="email" className="form__input" value={login} onChange={handleChange} name="login" id="login" minLength="2" maxLength="40" required
+                               aria-label="Email:" placeholder="Email:" />
+                        <span className="form__input-error form__name-error"></span>
+                        <input type="password" className="form__input" value={password} onChange={handleChange} name="password" id="password" minLength="2" maxLength="200" required
+                               aria-label="Пароль" placeholder="Пароль"/>
+                        <span className="form__input-error form__about-error"></span>
+                        <button type="submit" className="form__button">Зарегистрироваться</button>
+                    </form>
+                    <div className="auth__sign-in">
+                        <p className="auth__text">Уже зарегистрированы?&nbsp;
+                            <Link to="/sign-in" className="auth__link">Войти</Link>
+                        </p>
                     </div>
                 </div>
-                <InfoToolTip isSuccess={this.state.isRegister} isOpen={this.state.isInfoToolTipOpen} onClose={this.closeInfoToolTip} />
-            </>
-        )
-    }
+            </div>
+            <InfoToolTip isSuccess={isRegister} isOpen={isInfoToolTipOpen} onClose={closeInfoToolTip} />
+        </>
+    )
 }
 
 export default withRouter(Register);
