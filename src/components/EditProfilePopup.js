@@ -1,5 +1,5 @@
 import React, {useState}from "react";
-import { currentUserContext } from '../context/CurrentUserContext';
+import { CurrentUserContext } from '../context/CurrentUserContext';
 import PopupWithForm from "./PopupWithForm";
 
 
@@ -7,7 +7,7 @@ function EditProfilePopup({onUpdateUser, isOpen, onClose, submitButton}) {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
 
-    const currentUser = React.useContext(currentUserContext);
+    const currentUser = React.useContext(CurrentUserContext);
 
     React.useEffect(() => {
         setName(currentUser.name);
@@ -35,10 +35,10 @@ function EditProfilePopup({onUpdateUser, isOpen, onClose, submitButton}) {
         <PopupWithForm title={"Редактировать профиль"} formName={"profile-form"} onSubmit={handleSubmit} submitButton={submitButton} isOpen={isOpen} onClose={onClose} children={
             <>
                 <input type="text" className="popup__input" value={name ?? ''} onChange={handleChangeName} name="name" id="name" minLength="2" maxLength="40" required
-                       data-name aria-label="Введите Имя" />
+                       aria-label="Введите Имя" />
                 <span className="popup__input-error popup__name-error"></span>
                 <input type="text" className="popup__input" value={description ?? ''} onChange={handleChangeAbout} name="about" id="about" minLength="2" maxLength="200" required
-                       data-about aria-label="Введите статус" />
+                       aria-label="Введите статус" />
                 <span className="popup__input-error popup__about-error"></span>
             </>
         } />
