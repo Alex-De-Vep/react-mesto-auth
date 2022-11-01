@@ -7,9 +7,9 @@ import AddPlacePopup from "./AddPlacePopup";
 import PopupConfirm from "./PopupConfirm";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
-import {currentUserContext} from '../context/CurrentUserContext';
+import {CurrentUserContext} from '../context/CurrentUserContext';
 
-function Main(props) {
+function Main() {
     const [currentUser, setCurrentUser] = useState({name: "Имя"});
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -64,6 +64,7 @@ function Main(props) {
         setIsAddPlacePopupOpen(false);
         setIsEditAvatarPopupOpen(false);
         setIsPopupConfirmOpen(false);
+        setSelectedCard(null);
     };
 
     const handleUpdateUser = (data) => {
@@ -134,8 +135,6 @@ function Main(props) {
                 setCards((oldCards) =>
                     oldCards.filter((oldCard) => oldCard._id !== card._id)
                 );
-            })
-            .then(() => {
                 closeAllPopups();
             })
             .catch((err) => {
@@ -144,60 +143,58 @@ function Main(props) {
     }
 
     return (
-        <>
-            <currentUserContext.Provider value={currentUser}>
-                <main className="content">
-                    <section className="profile">
-                        <div className="container">
-                            <div className="profile__content">
-                                <button onClick={handleEditAvatarClick} className="profile__image-button">
-                                    <div className="profile__image-edit"></div>
-                                    <picture>
-                                        <img className="profile__image" src={currentUser.avatar}
-                                             alt="Аватарка профиля"/>
-                                    </picture>
-                                </button>
-                                <div className="profile__info">
-                                    <div className="profile__title-wrapper">
-                                        <h1 className="profile__title">{currentUser.name}</h1>
-                                        <button className="profile__button-edit" type="button"
-                                                onClick={handleEditProfileClick}>
-                                        </button>
-                                    </div>
-                                    <p className="profile__text">{currentUser.about}</p>
+        <CurrentUserContext.Provider value={currentUser}>
+            <main className="content">
+                <section className="profile">
+                    <div className="container">
+                        <div className="profile__content">
+                            <button onClick={handleEditAvatarClick} className="profile__image-button">
+                                <div className="profile__image-edit"></div>
+                                <picture>
+                                    <img className="profile__image" src={currentUser.avatar}
+                                         alt="Аватарка профиля"/>
+                                </picture>
+                            </button>
+                            <div className="profile__info">
+                                <div className="profile__title-wrapper">
+                                    <h1 className="profile__title">{currentUser.name}</h1>
+                                    <button className="profile__button-edit" type="button"
+                                            onClick={handleEditProfileClick}>
+                                    </button>
                                 </div>
-                                <button className="profile__button" type="button" onClick={handleAddPlaceClick}>
-                                </button>
+                                <p className="profile__text">{currentUser.about}</p>
                             </div>
+                            <button className="profile__button" type="button" onClick={handleAddPlaceClick}>
+                            </button>
                         </div>
-                    </section>
+                    </div>
+                </section>
 
-                    <section className="trips">
-                        <div className="container">
-                            <ul className="trips__list">
-                                {cards.map((item) => (
-                                    <li className="trips__item" key={item._id}>
-                                        <Card card={item} onCardClick={handleCardClick} onCardLike={handleCardLike}
-                                              onCardDelete={handleCardDelete}/>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </section>
-                </main>
-                <Footer/>
+                <section className="trips">
+                    <div className="container">
+                        <ul className="trips__list">
+                            {cards.map((item) => (
+                                <li className="trips__item" key={item._id}>
+                                    <Card card={item} onCardClick={handleCardClick} onCardLike={handleCardLike}
+                                          onCardDelete={handleCardDelete}/>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </section>
+            </main>
+            <Footer/>
 
-                <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen}
-                                  onClose={closeAllPopups} submitButton={buttonPopup}/>
-                <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen}
-                                 onClose={closeAllPopups} submitButton={buttonPopup}/>
-                <AddPlacePopup onUpdatePlace={handleAddPlaceSubmit} isOpen={isAddPlacePopupOpen}
-                               onClose={closeAllPopups} submitButton={buttonPopup}/>
-                <PopupConfirm onSubmit={deleteCard} card={selectedCardDelete} isOpen={isPopupConfirm}
-                              onClose={closeAllPopups}/>
-                {selectedCard && <ImagePopup card={selectedCard} onClose={closeAllPopups}/>}
-            </currentUserContext.Provider>
-        </>
+            <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen}
+                              onClose={closeAllPopups} submitButton={buttonPopup}/>
+            <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen}
+                             onClose={closeAllPopups} submitButton={buttonPopup}/>
+            <AddPlacePopup onUpdatePlace={handleAddPlaceSubmit} isOpen={isAddPlacePopupOpen}
+                           onClose={closeAllPopups} submitButton={buttonPopup}/>
+            <PopupConfirm onSubmit={deleteCard} card={selectedCardDelete} isOpen={isPopupConfirm}
+                          onClose={closeAllPopups}/>
+            {selectedCard && <ImagePopup card={selectedCard} onClose={closeAllPopups}/>}
+        </CurrentUserContext.Provider>
     );
 }
 
