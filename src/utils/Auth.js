@@ -19,8 +19,7 @@ export const register = (email, password) => {
     })
         .then((res) => {
             return getResponseData(res);
-        })
-        .catch((err) => console.log(err));
+        });
 };
 
 export const authorize = (login, password) => {
@@ -34,8 +33,7 @@ export const authorize = (login, password) => {
     })
         .then((res) => {
             return getResponseData(res);
-        })
-        .catch(err => console.log(err))
+        });
 };
 
 export const getContent = (token) => {
@@ -46,6 +44,5 @@ export const getContent = (token) => {
     })
         .then((res) => {
             return getResponseData(res);
-        })
-        .catch(err => console.log(err));
+        });
 }
