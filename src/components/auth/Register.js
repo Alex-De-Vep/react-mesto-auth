@@ -30,7 +30,7 @@ function Register(props) {
                 .then((res) => {
                     if (res.data._id) {
                         setIsRegister(true);
-                        setIsInfoToolTipOpen(true);
+                        history.push('/sign-in');
                     } else {
                         setIsRegister(false);
                     }
