@@ -6,8 +6,11 @@ import Main from "./Main";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import ProtectedRoute from "./ProtectedRoute";
+import InfoToolTip from "./InfoTooltip";
 
 function App() {
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [isInfoToolTipOpen, setIsInfoToolTipOpen] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
     const [userLogin, setUserLogin] = useState("");
     const history = useHistory();
@@ -36,31 +39,46 @@ function App() {
 
     const onLogin = (value) => {
         setLoggedIn(value);
+        setIsSuccess(value);
     }
 
     const updateUserLogin = (data) => {
         setUserLogin(data);
     }
 
+    const openInfoToolTip = () => {
+        setIsInfoToolTipOpen(true);
+    }
+
+    const closeInfoToolTip = () => {
+        setIsInfoToolTipOpen(false);
+        setIsSuccess(false);
+    }
+
+    const onSuccess = (data) => {
+        setIsSuccess(data);
+    }
+
     return (
-            <div className="page">
-                    <Header login={userLogin}/>
-                    <Switch>
-                        <ProtectedRoute exact path="/main" loggedIn={loggedIn} component={Main} />
+        <div className="page">
+            <Header login={userLogin}/>
+            <Switch>
+                <ProtectedRoute exact path="/main" loggedIn={loggedIn} component={Main}/>
 
-                        <Route path="/sign-in">
-                            <Login onLogin={onLogin} updateLogin={updateUserLogin} />
-                        </Route>
+                <Route path="/sign-in">
+                    <Login onLogin={onLogin} updateLogin={updateUserLogin} openInfoToolTip={openInfoToolTip} />
+                </Route>
 
-                        <Route path="/sign-up">
-                            <Register/>
-                        </Route>
+                <Route path="/sign-up">
+                    <Register openInfoToolTip={openInfoToolTip} isRegister={onSuccess} />
+                </Route>
 
-                        <Route exact path="/">
-                            {loggedIn ? <Redirect to="/main"/> : <Redirect to="/sign-in"/>}
-                        </Route>
-                    </ Switch>
-            </div>
+                <Route exact path="/">
+                    {loggedIn ? <Redirect to="/main"/> : <Redirect to="/sign-in"/>}
+                </Route>
+            </ Switch>
+            <InfoToolTip isSuccess={isSuccess} isOpen={isInfoToolTipOpen} onClose={closeInfoToolTip}/>
+        </div>
     );
 }
 
