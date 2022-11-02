@@ -1,18 +1,11 @@
 import React, {useState} from 'react';
 import * as Auth from '../../utils/Auth.js';
 import { withRouter, useHistory } from 'react-router-dom';
-import InfoToolTip from "../InfoTooltip";
 
-function Login({onLogin, updateLogin}) {
+function Login({onLogin, updateLogin, openInfoToolTip}) {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
-    const [isInfoToolTipOpen, setIsInfoToolTipOpen] = useState(false);
-    const [isAuth] = useState(false);
     const history = useHistory();
-
-    const closeInfoToolTip = () => {
-        setIsInfoToolTipOpen(false);
-    }
 
     const handleChange = (e) => {
         if (e.target.name === "login") {
@@ -38,13 +31,13 @@ function Login({onLogin, updateLogin}) {
                     setLogin("");
                     history.push('/main');
                 } else {
-                    setIsInfoToolTipOpen(true);
+                    openInfoToolTip();
                 }
             })
             .catch((err) => {
                 console.log(err)
 
-                setIsInfoToolTipOpen(true);
+                openInfoToolTip();
             });
     }
 
@@ -66,7 +59,6 @@ function Login({onLogin, updateLogin}) {
                     </form>
                 </div>
             </div>
-            <InfoToolTip isSuccess={isAuth} isOpen={isInfoToolTipOpen} onClose={closeInfoToolTip} />
         </>
     )
 }

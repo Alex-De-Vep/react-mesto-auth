@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 import * as Auth from '../../utils/Auth.js';
 import { Link, withRouter, useHistory } from 'react-router-dom';
-import InfoToolTip from "../InfoTooltip";
 
-function Register(props) {
+function Register({isRegister, openInfoToolTip}) {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
-    const [isInfoToolTipOpen, setIsInfoToolTipOpen] = useState(false);
-    const [isRegister, setIsRegister] = useState(false);
     const history = useHistory();
-
-    const closeInfoToolTip = () => {
-        setIsInfoToolTipOpen(false);
-    }
 
     const handleChange = (e) => {
         if (e.target.name === "login") {
@@ -29,16 +22,12 @@ function Register(props) {
             Auth.register(login, password)
                 .then((res) => {
                     if (res.data._id) {
-                        setIsRegister(true);
-                        setIsInfoToolTipOpen(true);
+                        isRegister(true);
                         history.push('/sign-in');
-                    } else {
-                        setIsRegister(false);
-                        setIsInfoToolTipOpen(true);
                     }
                 })
                 .finally(() => {
-                    setIsInfoToolTipOpen(true);
+                    openInfoToolTip();
                 })
         }
     }
@@ -66,7 +55,6 @@ function Register(props) {
                     </div>
                 </div>
             </div>
-            <InfoToolTip isSuccess={isRegister} isOpen={isInfoToolTipOpen} onClose={closeInfoToolTip} />
         </>
     )
 }
