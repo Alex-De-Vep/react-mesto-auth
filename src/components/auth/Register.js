@@ -33,6 +33,7 @@ function Register(props) {
                         history.push('/sign-in');
                     } else {
                         setIsRegister(false);
+                        setIsInfoToolTipOpen(true);
                     }
                 })
                 .finally(() => {
