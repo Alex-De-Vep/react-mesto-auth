@@ -1,6 +1,6 @@
 # React mesto auth
 
-Учебный проект для отработки функционала регистрации и регистрации
+Учебный проект для отработки функционала регистрации и авторизации
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
