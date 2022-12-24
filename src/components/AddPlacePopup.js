@@ -20,12 +20,15 @@ function AddPlacePopup({onUpdatePlace, isOpen, onClose, submitButton}) {
             name,
             link
         });
+
+        setName("");
+        setLink("");
     }
 
     return(
         <PopupWithForm title={"Новое место"} formName={"add-card-form"} onSubmit={handleSubmit} submitButton={submitButton} isOpen={isOpen} onClose={onClose} children={
             <>
-                <input type="text" className="popup__input" value={name} onChange={handleChangeName} name="name" id="title" minLength="2" maxLength="30"
+                <input type="text" className="popup__input" value={name} onChange={handleChangeName} name="name" id="name" minLength="2" maxLength="30"
                        placeholder="Название" aria-label="Введите название" required/>
                 <span className="popup__input-error popup__title-error"></span>
                 <input type="url" className="popup__input" value={link} name="link" onChange={handleChangeLink} id="link"

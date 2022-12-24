@@ -16,19 +16,16 @@ function App() {
     const history = useHistory();
 
     useEffect(() => {
-        if (localStorage.getItem('jwt')) {
-            const jwt = localStorage.getItem('jwt');
-            Auth.getContent(jwt)
-                .then((res) => {
-                    if (res) {
-                        setUserLogin(res.data.email);
-                        setLoggedIn(true);
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        }
+        Auth.getContent()
+            .then((res) => {
+                if (res) {
+                    setUserLogin(res.email);
+                    setLoggedIn(true);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }, [])
 
     useEffect(() => {

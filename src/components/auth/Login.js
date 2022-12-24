@@ -23,8 +23,7 @@ function Login({onLogin, updateLogin, openInfoToolTip}) {
 
         Auth.authorize(login, password)
             .then((data) => {
-                if (data.token){
-                    localStorage.setItem('jwt', data.token);
+                if (data){
                     updateLogin(login);
                     onLogin(true);
                     setPassword("");

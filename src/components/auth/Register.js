@@ -21,7 +21,7 @@ function Register({isRegister, openInfoToolTip}) {
         if (password !== ""){
             Auth.register(login, password)
                 .then((res) => {
-                    if (res.data._id) {
+                    if (res.data.email) {
                         isRegister(true);
                         history.push('/sign-in');
                     }

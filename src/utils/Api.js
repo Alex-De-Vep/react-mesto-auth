@@ -20,6 +20,7 @@ class Api {
         return fetch(`${this.baseUrl}/users/me/avatar`, {
             method: 'PATCH',
             headers: this.headers,
+            credentials: 'include',
             body: JSON.stringify(data)
         })
             .then(res => {
@@ -32,6 +33,7 @@ class Api {
         return fetch(`${this.baseUrl}/cards/likes/${cardId}`, {
             method,
             headers: this.headers,
+            credentials: 'include',
         })
             .then(res => {
                 return this._getResponseData(res);
@@ -42,6 +44,7 @@ class Api {
         return fetch(`${this.baseUrl}/cards/${cardId}`, {
             method: "DELETE",
             headers: this.headers,
+            credentials: 'include',
         })
             .then(res => {
                 return this._getResponseData(res);
@@ -52,6 +55,7 @@ class Api {
         return fetch(`${this.baseUrl}/cards`, {
             method: 'POST',
             headers: this.headers,
+            credentials: 'include',
             body: JSON.stringify(data)
         })
             .then(res => {
@@ -62,6 +66,7 @@ class Api {
     getCards() {
         return fetch(`${this.baseUrl}/cards`, {
             headers: this.headers,
+            credentials: 'include',
         })
             .then(res => {
                 return this._getResponseData(res);
@@ -72,6 +77,7 @@ class Api {
         return fetch(`${this.baseUrl}/users/me`, {
             method: 'PATCH',
             headers: this.headers,
+            credentials: 'include',
             body: JSON.stringify(data)
         })
             .then(res => {
@@ -82,6 +88,7 @@ class Api {
     getUserInfo() {
         return fetch(`${this.baseUrl}/users/me`, {
             headers: this.headers,
+            credentials: 'include',
         })
             .then(res => {
                 return this._getResponseData(res);
@@ -92,7 +99,6 @@ class Api {
 const api = new Api({
     baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-45',
     headers: {
-        authorization: '70a5e760-58dc-4dc4-9be2-5d986802ee28',
         'Content-Type': 'application/json'
     }
 });
