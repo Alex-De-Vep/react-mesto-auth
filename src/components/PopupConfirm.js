@@ -1,7 +1,7 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-function PopupConfirm({onSubmit, isOpen, onClose}) {
+function PopupConfirm({onSubmit, isOpen, onClose, isSending}) {
     function handleSubmit(e) {
         e.preventDefault();
 
@@ -9,7 +9,7 @@ function PopupConfirm({onSubmit, isOpen, onClose}) {
     }
 
     return(
-        <PopupWithForm title={"Вы уверены?"} formName={"remove-form"} onSubmit={handleSubmit} submitButton={"Да"} isOpen={isOpen} onClose={onClose} />
+        <PopupWithForm title={"Вы уверены?"} formName={"remove-form"} onSubmit={handleSubmit} submitButton={isSending ? "Отправка..." : "Да"} isOpen={isOpen} isDisabled={isSending} onClose={onClose} />
     );
 }
 

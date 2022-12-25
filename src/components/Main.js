@@ -15,7 +15,7 @@ function Main() {
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isPopupConfirm, setIsPopupConfirmOpen] = useState(false);
-    const [buttonPopup, setButtonPopup] = useState("Сохранить");
+    const [isRequestSending, setIsRequestSending] = useState(false);
     const [selectedCard, setSelectedCard] = useState(null);
     const [selectedCardDelete, setSelectedCardDelete] = useState(null);
     const [cards, setCards] = React.useState([])
@@ -68,7 +68,7 @@ function Main() {
     };
 
     const handleUpdateUser = (data) => {
-        setButtonPopup("Сохранение");
+        setIsRequestSending(true);
 
         api.updateUserInfo(data)
             .then((data) => {
@@ -79,12 +79,12 @@ function Main() {
                 console.log(err);
             })
             .finally(() => {
-                setButtonPopup("Сохранено");
+                setIsRequestSending(false);
             });
     }
 
     const handleUpdateAvatar = (data) => {
-        setButtonPopup("Сохранение");
+        setIsRequestSending(true);
 
         api.updateAvatar(data)
             .then((data) => {
@@ -95,7 +95,7 @@ function Main() {
                 console.log(err);
             })
             .finally(() => {
-                setButtonPopup("Сохранено");
+                setIsRequestSending(false);
             });
     }
 
@@ -114,7 +114,7 @@ function Main() {
     }
 
     function handleAddPlaceSubmit(data) {
-        setButtonPopup("Сохранение");
+        setIsRequestSending(true);
 
         api.addCard(data)
             .then((newCard) => {
@@ -125,7 +125,7 @@ function Main() {
                 console.log(err);
             })
             .finally(() => {
-                setButtonPopup("Сохранено");
+                setIsRequestSending(false);
             });
     }
 
@@ -186,13 +186,13 @@ function Main() {
             <Footer/>
 
             <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen}
-                              onClose={closeAllPopups} submitButton={buttonPopup} />
+                              onClose={closeAllPopups} isSending={isRequestSending} />
             <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen}
-                             onClose={closeAllPopups} submitButton={buttonPopup} />
+                             onClose={closeAllPopups} isSending={isRequestSending} />
             <AddPlacePopup onUpdatePlace={handleAddPlaceSubmit} isOpen={isAddPlacePopupOpen}
-                           onClose={closeAllPopups} submitButton={buttonPopup} />
+                           onClose={closeAllPopups} isSending={isRequestSending} />
             <PopupConfirm onSubmit={deleteCard} isOpen={isPopupConfirm}
-                          onClose={closeAllPopups} />
+                          onClose={closeAllPopups} isSending={isRequestSending} />
             {selectedCard && <ImagePopup card={selectedCard} onClose={closeAllPopups} />}
         </CurrentUserContext.Provider>
     );
