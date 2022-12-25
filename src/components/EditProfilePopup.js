@@ -6,11 +6,12 @@ import {useForm} from "../hooks/useForm";
 
 function EditProfilePopup({onUpdateUser, isOpen, onClose, submitButton}) {
     const currentUser = React.useContext(CurrentUserContext);
+    const {name, about} = currentUser;
     const {values, handleChange, setValues} = useForm();
 
     React.useEffect(() => {
         if (currentUser) {
-            setValues(currentUser);
+            setValues({name, about});
         }
     }, [currentUser, setValues, isOpen]);
 
